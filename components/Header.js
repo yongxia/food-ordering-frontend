@@ -1,4 +1,4 @@
-import React from 'react';
+import { useContext } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles';
 import {
     AppBar,
@@ -9,8 +9,9 @@ import {
     Link
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-
 import NextLink from 'next/link'
+
+import {QueryContext} from './layout'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -62,8 +63,14 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function ButtonAppBar() {
+export default function AppHeader() {
     const classes = useStyles();
+
+    const { query, setQuery } = useContext(QueryContext);
+
+    const handleChange = (value) => {
+        setQuery(value);
+    }
 
     return (
         <AppBar position="static">
@@ -84,6 +91,8 @@ export default function ButtonAppBar() {
                             input: classes.inputInput,
                         }}
                         inputProps={{ 'aria-label': 'search' }}
+                        value={query.length > 0 ? query : ''}
+                        onChange={e => handleChange(e.target.value.toLowerCase())}
                     />
                 </div>
 

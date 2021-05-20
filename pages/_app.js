@@ -9,7 +9,10 @@ import { ApolloProvider } from "@apollo/client";
 import client from "../lib/apollo-client";
 
 
+
 function MyApp({ Component, pageProps }) {
+
+
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -18,15 +21,19 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <ApolloProvider client={client}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ApolloProvider>
-    </ThemeProvider>)
+
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ApolloProvider client={client}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ApolloProvider>
+      </ThemeProvider>
+
+  )
 }
 
 
