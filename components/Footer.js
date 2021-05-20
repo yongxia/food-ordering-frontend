@@ -1,16 +1,12 @@
+import React from 'react';
+import { Typography, Box, Link } from '@material-ui/core';
 
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
+export default function TemporaryDrawer() {
 
-export default function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Yong Xia
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <Box display="flex" >
+      <Box flexGrow={1}><Typography color="error">This is a demo app</Typography></Box>
+      <Box><Link href="#">View on GitHub</Link></Box>
+    </Box>
   );
 }

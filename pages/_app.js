@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 import theme from './theme';
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {

@@ -1,15 +1,16 @@
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+    InputBase,
+    Link
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 
-
-import Link from 'next/link'
-import MUILink from '@material-ui/core/Link';
+import NextLink from 'next/link'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -69,9 +70,9 @@ export default function ButtonAppBar() {
         <AppBar position="static">
             <Toolbar>
                 <div className={classes.root} >
-                    <Link href="/">
-                        <Typography variant="h6" className={classes.title}> <MUILink href="/" color="inherit">Home</MUILink></Typography>
-                    </Link>
+                    <NextLink href="/">
+                        <Typography variant="h6" className={classes.title}><Link href="#" color="inherit">Home</Link></Typography>
+                    </NextLink>
                 </div>
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
@@ -87,12 +88,12 @@ export default function ButtonAppBar() {
                     />
                 </div>
 
-                <Link href="/login">
+                <NextLink href="/login">
                     <Button className={classes.sign} color="inherit">Sign In</Button>
-                </Link>
-                <Link href="/register">
+                </NextLink>
+                <NextLink href="/register">
                     <Button className={classes.sign} color="inherit">Sign Up</Button>
-                </Link>
+                </NextLink>
 
             </Toolbar>
         </AppBar >
