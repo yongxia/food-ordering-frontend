@@ -1,7 +1,5 @@
 import { useQuery, gql } from "@apollo/client";
-
 import Grid from '@material-ui/core/Grid';
-
 
 import RestaurantCard from './card'
 
@@ -28,13 +26,9 @@ export default function Restaurants() {
     const restaurants = data.restaurants;
 
     return (
-
-        // 
-        < Grid container spacing={2} >
-            <Grid item xs={12}>
-                <Grid container justify="center" spacing={10}>
-                    {restaurants.map(r => <Grid key={r.name} item> <RestaurantCard restaurant={r} /></Grid>)}
-                </Grid>
+        <Grid item xs={12}>
+            <Grid container justify="center" spacing={10}>
+                {restaurants.map(r => <Grid key={r.name} item> <RestaurantCard restaurant={r} /></Grid>)}
             </Grid>
         </Grid>
     );

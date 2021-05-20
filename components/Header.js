@@ -12,7 +12,6 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import NextLink from 'next/link'
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
