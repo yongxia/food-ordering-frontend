@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useQuery, gql } from "@apollo/client";
 import { Grid } from '@material-ui/core';
 
-import DishCard from '../components/DishList/card'
+import DishCard from '../../components/DishList/card'
 
 const QUERY = gql`
 query($id:  ID!){
@@ -26,7 +26,7 @@ query($id:  ID!){
 `
 const restuarant = () => {
     const router = useRouter();
-    const { id } = router.query;
+    const id = router.query.rid;
     const { loading, error, data } = useQuery(QUERY, {
         variables: { id },
     });

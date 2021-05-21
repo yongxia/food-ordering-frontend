@@ -49,8 +49,7 @@ export default function RestaurantCard(props) {
             </CardContent>
             <CardActions disableSpacing>
                 <NextLink
-                    as={`/restaurant/${id}`}
-                    href={`/restaurant?id=${id}`}
+                    href={`/restaurant/${id}`}
                 >
                     <Link href="#">View Dish</Link>
                 </NextLink>
