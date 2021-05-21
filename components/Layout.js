@@ -5,28 +5,29 @@ import Footer from './footer'
 import Meta from './meta'
 import { Container } from '@material-ui/core';
 
-export const QueryContext = createContext({
+export const AppContext = createContext({
     query: "",
-    setQuery: () => { }
+    show: true,
+    setQuery: () => { },
+    setShow: () => { }
 });
-
 
 const Layout = ({ children }) => {
 
     const [query, setQuery] = useState("");
-    const value = { query, setQuery };
+    const [show, setShow] = useState(true);
 
     return (
-        <QueryContext.Provider value={value}>
+        <AppContext.Provider value={{ query, setQuery, show, setShow }}>
             <Container maxWidth="lg">
                 <Meta />
-                <Head query={query} updateQuery={setQuery} />
+                <Head />
                 <br />
                 <main >{children}</main>
                 <br />
                 <Footer />
             </Container>
-        </QueryContext.Provider>
+        </AppContext.Provider>
     )
 };
 

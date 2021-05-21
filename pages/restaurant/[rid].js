@@ -1,8 +1,10 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { useQuery, gql } from "@apollo/client";
 import { Grid } from '@material-ui/core';
+import { useContext, useEffect } from 'react';
 
-import DishCard from '../../components/DishList/card'
+import { AppContext } from '../../components/layout';
+import DishCard from '../../components/DishList/card';
 
 const QUERY = gql`
 query($id:  ID!){
@@ -25,6 +27,11 @@ query($id:  ID!){
 }
 `
 const restuarant = () => {
+
+    const { show, setShow } = useContext(AppContext);
+    //hide search bar for restuarant when display dishes
+    useEffect(() => setShow(false), [show]);
+
     const router = useRouter();
     const id = router.query.rid;
     const { loading, error, data } = useQuery(QUERY, {

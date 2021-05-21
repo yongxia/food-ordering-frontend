@@ -11,7 +11,7 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import NextLink from 'next/link'
 
-import {QueryContext} from './layout'
+import { AppContext } from './layout'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AppHeader() {
     const classes = useStyles();
 
-    const { query, setQuery } = useContext(QueryContext);
+    const { query, setQuery, show } = useContext(AppContext);
 
     const handleChange = (value) => {
         setQuery(value);
@@ -80,21 +80,23 @@ export default function AppHeader() {
                         <Typography variant="h6" className={classes.title}><Link href="#" color="inherit">Home</Link></Typography>
                     </NextLink>
                 </div>
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon />
+                {show &&
+                    <div className={classes.search}>
+                        <div className={classes.searchIcon}>
+                            <SearchIcon />
+                        </div>
+                        <InputBase
+                            placeholder="Search…"
+                            classes={{
+                                root: classes.inputRoot,
+                                input: classes.inputInput,
+                            }}
+                            inputProps={{ 'aria-label': 'search' }}
+                            value={query}
+                            onChange={e => handleChange(e.target.value.toLowerCase())}
+                        />
                     </div>
-                    <InputBase
-                        placeholder="Search…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{ 'aria-label': 'search' }}
-                        value={query.length > 0 ? query : ''}
-                        onChange={e => handleChange(e.target.value.toLowerCase())}
-                    />
-                </div>
+                }
 
                 <NextLink href="/login">
                     <Button className={classes.sign} color="inherit">Sign In</Button>

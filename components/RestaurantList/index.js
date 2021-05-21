@@ -1,9 +1,9 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useQuery, gql } from "@apollo/client";
 import { Grid } from '@material-ui/core';
 
 import RestaurantCard from './card'
-import { QueryContext } from '../layout'
+import { AppContext } from '../layout'
 
 
 const QUERY = gql`{
@@ -16,8 +16,13 @@ const QUERY = gql`{
 }`;
 
 export default function Restaurants() {
+    const { query, show, setShow } = useContext(AppContext);
     const { data, loading, error } = useQuery(QUERY);
-    const { query: search } = useContext(QueryContext);
+
+    //app root, show search bar
+    useEffect(() => setShow(true), [show])
+
+
     if (loading) {
         return <h2>Loading...</h2>;
     }
@@ -27,8 +32,8 @@ export default function Restaurants() {
         return null;
     }
 
-    console.log('search', search)
-    const restaurants = data.restaurants.filter(r => r.name.toLowerCase().includes(search));
+    //console.log('search', query)
+    const restaurants = data.restaurants.filter(r => r.name.toLowerCase().includes(query));
 
     return (
         <Grid container spacing={3}>
