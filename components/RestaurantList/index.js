@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { useQuery, gql } from "@apollo/client";
-import { Grid, Card } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 import RestaurantCard from './card'
 import { QueryContext } from '../layout'
@@ -8,6 +8,7 @@ import { QueryContext } from '../layout'
 
 const QUERY = gql`{
     restaurants {
+        id
         name 
         description 
         image {url} 
@@ -31,7 +32,7 @@ export default function Restaurants() {
 
     return (
         <Grid container spacing={3}>
-            {restaurants.map(r => <RestaurantCard restaurant={r} />)}
+            {restaurants.map(r => <RestaurantCard key={r.id} restaurant={r} />)}
         </Grid>
     );
 }
