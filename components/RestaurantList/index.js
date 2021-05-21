@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { useQuery, gql } from "@apollo/client";
-import Grid from '@material-ui/core/Grid';
+import { Grid, Card } from '@material-ui/core';
 
 import RestaurantCard from './card'
 import { QueryContext } from '../layout'
@@ -27,13 +27,11 @@ export default function Restaurants() {
     }
 
     console.log('search', search)
-    const restaurants = data.restaurants.filter(r => r.name.toLowerCase().includes(search))
+    const restaurants = data.restaurants.filter(r => r.name.toLowerCase().includes(search));
 
     return (
-        <Grid item xs={12}>
-            <Grid container justify="center" spacing={10}>
-                {restaurants.map(r => <Grid key={r.name} item> <RestaurantCard restaurant={r} /></Grid>)}
-            </Grid>
+        <Grid container spacing={3}>
+            {restaurants.map(r => <RestaurantCard restaurant={r} />)}
         </Grid>
     );
 }

@@ -1,17 +1,13 @@
 import { useEffect } from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { ApolloProvider } from "@apollo/client";
+import client from "../lib/apollo-client";
 
 import theme from './theme';
 import Layout from '../components/layout'
 
-import { ApolloProvider } from "@apollo/client";
-import client from "../lib/apollo-client";
-
-
-
 function MyApp({ Component, pageProps }) {
-
 
   useEffect(() => {
     // Remove the server-side injected CSS.
@@ -21,18 +17,15 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-
   return (
-
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ApolloProvider client={client}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ApolloProvider>
-      </ThemeProvider>
-
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <ApolloProvider client={client}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ApolloProvider>
+    </ThemeProvider>
   )
 }
 
