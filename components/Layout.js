@@ -9,9 +9,13 @@ export const AppContext = createContext({
     query: "",
     show: true,
     user: null,
+    cart: [],
+    total: 0,
     setQuery: () => { },
     setShow: () => { },
-    setUser: () => { }
+    setUser: () => { },
+    setCart: () => { },
+    setTotal: () => { }
 });
 
 const Layout = ({ children }) => {
@@ -19,10 +23,13 @@ const Layout = ({ children }) => {
     const [query, setQuery] = useState("");
     const [show, setShow] = useState(true);
     const [user, setUser] = useState(null);
+    const [cart, setCart] = useState([]);
+    const [total, setTotal] = useState(0);
+
 
     return (
-        <AppContext.Provider value={{ query, setQuery, show, setShow, user, setUser }}>
-            <Container maxWidth="lg">
+        <AppContext.Provider value={{ query, setQuery, show, setShow, user, setUser, cart, setCart, total, setTotal }}>
+            <Container>
                 <Meta />
                 <Head />
                 <br />

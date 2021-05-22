@@ -6,16 +6,19 @@ import {
     Typography,
     Button,
     InputBase,
+    Badge,
+    IconButton,
     Link
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import NextLink from 'next/link'
 
 import { AppContext } from './layout'
 import { logout } from '../lib/auth'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    grow: {
         flexGrow: 1,
     },
     title: {
@@ -64,10 +67,10 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function AppHeader() {
+export default function AppHeader(props) {
     const classes = useStyles();
 
-    const { query, setQuery, show, user, setUser } = useContext(AppContext);
+    const { query, setQuery, show, user, setUser, total } = useContext(AppContext);
 
     const handleChange = (value) => {
         setQuery(value);
@@ -81,11 +84,11 @@ export default function AppHeader() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <div className={classes.root} >
-                    <NextLink href="/">
-                        <Typography variant="h6" className={classes.title}><Link href="#" color="inherit">Home</Link></Typography>
-                    </NextLink>
-                </div>
+
+                <NextLink href="/">
+                    <Typography variant="h6" className={classes.title}><Link href="#" color="inherit">Home</Link></Typography>
+                </NextLink>
+
                 {show &&
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
@@ -103,15 +106,33 @@ export default function AppHeader() {
                         />
                     </div>
                 }
+
+                <div className={classes.grow}></div>
                 {user ?
                     <>
-                        {`Hello ${user}`}
+                        {user}
+                        <NextLink href='/cart'>
+                            <IconButton aria-label="cart items" color="inherit">
+                                <Badge badgeContent={total} color="secondary">
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </IconButton>
+                        </NextLink>
                         <Button className={classes.sign} color="inherit" onClick={handleClickLogout}>Logout</Button>
                     </>
                     :
-                    <NextLink href="/login">
-                        <Button className={classes.sign} color="inherit">Sign In</Button>
-                    </NextLink>
+                    <>
+                        <NextLink href='/cart'>
+                            <IconButton aria-label="cart items" color="inherit">
+                                <Badge badgeContent={total} color="secondary">
+                                    <ShoppingCartIcon />
+                                </Badge>
+                            </IconButton>
+                        </NextLink>
+                        <NextLink href="/login">
+                            <Button className={classes.sign} color="inherit">Sign In</Button>
+                        </NextLink>
+                    </>
                 }
             </Toolbar>
         </AppBar >

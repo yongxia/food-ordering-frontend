@@ -1,5 +1,4 @@
-import React from 'react';
-import NextLink from 'next/link'
+import { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Card,
@@ -11,6 +10,7 @@ import {
     Link
 } from '@material-ui/core';
 
+import { AppContext } from '../layout'
 
 const useStyles = makeStyles((theme) => ({
     media: {
@@ -18,8 +18,8 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '56.25%', // 16:9
     },
     card: {
-        margin: 16,
-        width: 345,
+        margin: 8,
+        width: 300,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between"
@@ -32,8 +32,11 @@ const useStyles = makeStyles((theme) => ({
 export default function DishCard(props) {
     const classes = useStyles();
 
+    const { cart, setCart, setTotal } = useContext(AppContext);
     const handleClick = () => {
-
+        cart.push(props.dish);
+        setCart(cart);
+        setTotal(cart.length)
     };
     const { id, name, description, image, price } = props.dish;
 
@@ -54,7 +57,7 @@ export default function DishCard(props) {
                 <Typography className={classes.grow} component="p">
                     ${price}
                 </Typography>
-                <Link href="#">Add to Cart</Link>
+                <Link href="#" onClick={handleClick}>Add to Cart</Link>
             </CardActions>
         </Card>
     );

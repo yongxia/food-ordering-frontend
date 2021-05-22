@@ -2,9 +2,11 @@ import { useRouter } from 'next/router';
 import { useQuery, gql } from "@apollo/client";
 import { Grid } from '@material-ui/core';
 import { useContext, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { AppContext } from '../../components/layout';
 import DishCard from '../../components/DishList/card';
+import Cart from '../cart'
 
 const QUERY = gql`
 query($id:  ID!){
@@ -26,7 +28,17 @@ query($id:  ID!){
     } 
 }
 `
+
+const useStyles = makeStyles((theme) => ({
+    container: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(12, 1fr)',
+        gridGap: theme.spacing(3),
+    }
+}));
+
 const restuarant = () => {
+    const classes = useStyles();
 
     const { show, setShow } = useContext(AppContext);
     //hide search bar for restuarant when display dishes
@@ -50,9 +62,6 @@ const restuarant = () => {
         <>
             <h2>{name}</h2>
             <Grid container>
-                shopping cart
-            </Grid>
-            <Grid container spacing={3}>
                 {dishes.map(d => <DishCard key={d.id} dish={d} />)}
             </Grid>
         </>
