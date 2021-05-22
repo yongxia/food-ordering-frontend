@@ -8,17 +8,20 @@ import { Container } from '@material-ui/core';
 export const AppContext = createContext({
     query: "",
     show: true,
+    user: null,
     setQuery: () => { },
-    setShow: () => { }
+    setShow: () => { },
+    setUser: () => { }
 });
 
 const Layout = ({ children }) => {
 
     const [query, setQuery] = useState("");
     const [show, setShow] = useState(true);
+    const [user, setUser] = useState(null);
 
     return (
-        <AppContext.Provider value={{ query, setQuery, show, setShow }}>
+        <AppContext.Provider value={{ query, setQuery, show, setShow, user, setUser }}>
             <Container maxWidth="lg">
                 <Meta />
                 <Head />

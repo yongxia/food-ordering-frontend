@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AppHeader() {
     const classes = useStyles();
 
-    const { query, setQuery, show } = useContext(AppContext);
+    const { query, setQuery, show, user } = useContext(AppContext);
 
     const handleChange = (value) => {
         setQuery(value);
@@ -97,14 +97,11 @@ export default function AppHeader() {
                         />
                     </div>
                 }
-
-                <NextLink href="/login">
-                    <Button className={classes.sign} color="inherit">Sign In</Button>
-                </NextLink>
-                <NextLink href="/register">
-                    <Button className={classes.sign} color="inherit">Sign Up</Button>
-                </NextLink>
-
+                {user ? `Hello ${user}` :
+                    <NextLink href="/login">
+                        <Button className={classes.sign} color="inherit">Sign In</Button>
+                    </NextLink>
+                }
             </Toolbar>
         </AppBar >
     );
