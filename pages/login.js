@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useContext, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +11,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import NextLink from 'next/link'
+import Router from 'next/router'
+import { AppContext } from '../components/layout'
+import { login } from '../lib/auth'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -35,6 +38,32 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
     const classes = useStyles();
 
+    const { setShow, setUser } = useContext(AppContext);
+
+    const [identifier, setIdentifier] = useState("");
+
+    const [password, setPassword] = useState("");
+
+    useEffect(() => setShow(false));
+
+    const handleChangeIdentifier = (value) => {
+        setIdentifier(value);
+    };
+
+    const handleChangePassword = (value) => {
+        setPassword(value);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        login({ identifier, password })
+            .then(user => {
+                setUser(user);
+                Router.push('/');
+            })
+            .catch(err => <h2>err</h2>)
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -45,7 +74,7 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={e => handleSubmit(e)}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -54,6 +83,8 @@ export default function SignIn() {
                         id="email"
                         label="Email Address"
                         name="email"
+                        value={identifier}
+                        onChange={e => handleChangeIdentifier(e.target.value)}
                         autoComplete="email"
                         autoFocus
                     />
@@ -65,6 +96,8 @@ export default function SignIn() {
                         name="password"
                         label="Password"
                         type="password"
+                        value={password}
+                        onChange={e => handleChangePassword(e.target.value)}
                         id="password"
                         autoComplete="current-password"
                     />

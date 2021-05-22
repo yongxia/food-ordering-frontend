@@ -12,6 +12,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import NextLink from 'next/link'
 
 import { AppContext } from './layout'
+import { logout } from '../lib/auth'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -66,10 +67,15 @@ const useStyles = makeStyles((theme) => ({
 export default function AppHeader() {
     const classes = useStyles();
 
-    const { query, setQuery, show, user } = useContext(AppContext);
+    const { query, setQuery, show, user, setUser } = useContext(AppContext);
 
     const handleChange = (value) => {
         setQuery(value);
+    }
+
+    const handleClickLogout = () => {
+        logout();
+        setUser(null);
     }
 
     return (
@@ -97,7 +103,12 @@ export default function AppHeader() {
                         />
                     </div>
                 }
-                {user ? `Hello ${user}` :
+                {user ?
+                    <>
+                        {`Hello ${user}`}
+                        <Button className={classes.sign} color="inherit" onClick={handleClickLogout}>Logout</Button>
+                    </>
+                    :
                     <NextLink href="/login">
                         <Button className={classes.sign} color="inherit">Sign In</Button>
                     </NextLink>
