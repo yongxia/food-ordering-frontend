@@ -32,11 +32,16 @@ const useStyles = makeStyles((theme) => ({
 export default function DishCard(props) {
     const classes = useStyles();
 
-    const { cart, setCart, setTotal } = useContext(AppContext);
-    const handleClick = () => {
-        cart.push(props.dish);
-        setCart(cart);
-        setTotal(cart.length)
+    const { cart, setCart } = useContext(AppContext);
+    const addToCart = () => {
+        let item = cart.items.find(item => item.id == props.dish.id);
+        if (item === undefined) {
+            cart.items.push({ ...props.dish, quitality: 1 });
+        } else {
+            item.quitality++;
+        }
+        cart.total++;
+        setCart({ ...cart });
     };
     const { id, name, description, image, price } = props.dish;
 
@@ -57,7 +62,7 @@ export default function DishCard(props) {
                 <Typography className={classes.grow} component="p">
                     ${price}
                 </Typography>
-                <Link href="#" onClick={handleClick}>Add to Cart</Link>
+                <Link href="#" onClick={addToCart}>Add to Cart</Link>
             </CardActions>
         </Card>
     );

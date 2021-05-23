@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
 export default function RestaurantCard(props) {
     const classes = useStyles();
 
-    const handleClick = () => {
-
-    };
     const { id, name, description, image } = props.restaurant;
 
     return (

@@ -67,10 +67,20 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+const ShoppingCartLabel = props => (
+    <NextLink href='/cart'>
+        <IconButton aria-label="cart items" color="inherit">
+            <Badge badgeContent={props.total} color="secondary">
+                <ShoppingCartIcon />
+            </Badge>
+        </IconButton>
+    </NextLink>
+)
+
 export default function AppHeader(props) {
     const classes = useStyles();
 
-    const { query, setQuery, show, user, setUser, total } = useContext(AppContext);
+    const { query, setQuery, show, user, setUser } = useContext(AppContext);
 
     const handleChange = (value) => {
         setQuery(value);
@@ -111,24 +121,12 @@ export default function AppHeader(props) {
                 {user ?
                     <>
                         {user}
-                        <NextLink href='/cart'>
-                            <IconButton aria-label="cart items" color="inherit">
-                                <Badge badgeContent={total} color="secondary">
-                                    <ShoppingCartIcon />
-                                </Badge>
-                            </IconButton>
-                        </NextLink>
+                        <ShoppingCartLabel total={props.total} />
                         <Button className={classes.sign} color="inherit" onClick={handleClickLogout}>Logout</Button>
                     </>
                     :
                     <>
-                        <NextLink href='/cart'>
-                            <IconButton aria-label="cart items" color="inherit">
-                                <Badge badgeContent={total} color="secondary">
-                                    <ShoppingCartIcon />
-                                </Badge>
-                            </IconButton>
-                        </NextLink>
+                        <ShoppingCartLabel total={props.total} />
                         <NextLink href="/login">
                             <Button className={classes.sign} color="inherit">Sign In</Button>
                         </NextLink>
