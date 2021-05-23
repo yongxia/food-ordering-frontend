@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import HomeIcon from '@material-ui/icons/Home';
 import NextLink from 'next/link'
 
 import { AppContext } from './layout'
@@ -26,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
+    },
+    menuButton: {
+        marginRight: theme.spacing(1),
     },
     search: {
         position: 'relative',
@@ -94,11 +98,19 @@ export default function AppHeader(props) {
     return (
         <AppBar position="static">
             <Toolbar>
-
+                <NextLink href="/">
+                    <IconButton
+                        edge="start"
+                        className={classes.menuButton}
+                        color="inherit"
+                        aria-label="home"
+                    >
+                        <HomeIcon />
+                    </IconButton>
+                </NextLink>
                 <NextLink href="/">
                     <Typography variant="h6" className={classes.title}><Link href="#" color="inherit">Home</Link></Typography>
                 </NextLink>
-
                 {show &&
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
@@ -116,7 +128,6 @@ export default function AppHeader(props) {
                         />
                     </div>
                 }
-
                 <div className={classes.grow}></div>
                 {user ?
                     <>

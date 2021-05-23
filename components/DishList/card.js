@@ -41,7 +41,8 @@ export default function DishCard(props) {
             item.quitality++;
         }
         cart.total++;
-        setCart({ ...cart });
+        cart.amount += props.dish.price;
+        setCart({ ...cart, });
     };
     const { id, name, description, image, price } = props.dish;
 

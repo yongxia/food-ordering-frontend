@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
 import { useQuery, gql } from "@apollo/client";
-import { Grid } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { AppContext } from '../../components/layout';
 import DishCard from '../../components/DishList/card';
-import Cart from '../cart'
+
+import Link from 'next/link'
 
 const QUERY = gql`
 query($id:  ID!){
@@ -60,6 +61,11 @@ const restuarant = () => {
 
     return (
         <>
+            <Link href='/'>
+                <Button variant="outlined" color="primary" href="#outlined-buttons">
+                    Back
+</Button>
+            </Link>
             <h2>{name}</h2>
             <Grid container>
                 {dishes.map(d => <DishCard key={d.id} dish={d} />)}

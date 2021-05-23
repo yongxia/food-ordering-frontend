@@ -1,38 +1,50 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import {
-    Grid,
-    Avatar,
+    Box,
+    Button,
     Typography,
     List,
     ListItem,
     ListItemAvatar,
     ListItemText,
     ListItemSecondaryAction,
-    IconButton
+    IconButton,
+    ButtonBase,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableRow
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 import { AppContext } from '../components/layout';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
+    image: {
+        width: 128,
+        height: 128,
+        paddingRignt: 10
+    },
+    img: {
+        margin: 'auto',
+        display: 'block',
+        maxWidth: '100%',
+        maxHeight: '100%',
     },
 }));
 
 const CartItem = ({ item, cart, setCart }) => {
-
+    const classes = useStyles();
     const { id, image, name, price, quitality } = item;
 
     const increase = () => {
         setCart(() => {
             item.quitality++;
             cart.total++;
+            cart.amount += price;
             return { ...cart }
         });
     }
@@ -42,11 +54,12 @@ const CartItem = ({ item, cart, setCart }) => {
             if (item.quitality == 1) {
                 //cart size might change when click decreas, use findIndex
                 let index = cart.items.findIndex(i => i.id == id);
-                cart.items = cart.items.splice(index);
+                cart.items.splice(index, 1);
             } else {
                 item.quitality--;
             }
             cart.total--;
+            cart.amount -= price;
             return { ...cart }
         });
     }
@@ -56,19 +69,22 @@ const CartItem = ({ item, cart, setCart }) => {
         <List >
             <ListItem>
                 <ListItemAvatar>
-                    <Avatar variant="square" alt={name} src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image.url}` : '/default.png'} />
+                    <Box m={2}>
+                        <ButtonBase className={classes.image} >
+                            <img className={classes.img} variant="square" alt={name} src={image ? `${process.env.NEXT_PUBLIC_API_URL}${image.url}` : '/default.png'} />
+                        </ButtonBase>
+                    </Box>
                 </ListItemAvatar>
                 <ListItemText
                     primary={name}
-                    secondary={<><p>{`Price: ${price}`}</p><p>{`Qty: ${quitality}`}</p></>}
+                    secondary={<><p>Price: ${price}</p><p>Qty: {quitality}</p></>}
                 />
                 <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="increase">
-                        <AddIcon color="primary" onClick={increase} />
+                    <IconButton edge="end" aria-label="increase" onClick={increase} >
+                        <AddIcon color="primary" />
                     </IconButton>
-
-                    <IconButton edge="end" aria-label="decrease">
-                        <RemoveIcon style={{ color: "red" }} onClick={decrease} />
+                    <IconButton edge="end" aria-label="decrease" onClick={decrease}>
+                        <RemoveIcon style={{ color: "red" }} />
                     </IconButton>
                 </ListItemSecondaryAction>
             </ListItem>
@@ -81,21 +97,37 @@ export default function Cart() {
     const { cart, setCart } = useContext(AppContext);
 
     return cart.total === 0 ?
-        <>
-            <h2>CART</h2>
-            <Typography variant="body2" color="textSecondary" component="p">
+        <div style={{ textAlign: "center" }}>
+            <Typography variant="h4">Cart</Typography>
+            <Typography variant="body1" color="textSecondary" >
                 Your cart is empty
                 </Typography>
-        </> :
+        </div>
+        :
         <>
-            < ListItem key="total">
-                <ListItemText><h3>CART Orders - Total items: {cart.total}, Total price: $0</h3></ListItemText>
-            </ListItem>
-
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell align="right">Total Items</TableCell>
+                        <TableCell align="right">Total Amount</TableCell>
+                        <TableCell align="right"></TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow key={1}>
+                        <TableCell align="right">{cart.total}</TableCell>
+                        <TableCell align="right">${Math.round(cart.amount * 100) / 100}</TableCell>
+                        <TableCell align="right">
+                            <Button variant="outlined" color="primary" href="#outlined-buttons">
+                                Pay
+</Button>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
             <List>
                 {cart.items.map(item => <CartItem key={item.id} item={item} cart={cart} setCart={setCart} />)}
             </List >
         </>
-
 
 };
