@@ -20,9 +20,17 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
+import Router from 'next/router'
+import Cookies from 'js-cookie';
+
 import { AppContext } from '../components/layout';
+import CheckOut from './checkout'
+
 
 const useStyles = makeStyles((theme) => ({
+    grow: {
+        flexGrow: 1
+    },
     image: {
         width: 128,
         height: 128,
@@ -64,7 +72,6 @@ const CartItem = ({ item, cart, setCart }) => {
         });
     }
 
-
     return (
         <List >
             <ListItem>
@@ -77,7 +84,13 @@ const CartItem = ({ item, cart, setCart }) => {
                 </ListItemAvatar>
                 <ListItemText
                     primary={name}
-                    secondary={<><p>Price: ${price}</p><p>Qty: {quitality}</p></>}
+                    secondary={
+                        <>
+                            Price: ${price}
+                            <br />
+                            Qty: {quitality}
+                        </>
+                    }
                 />
                 <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="increase" onClick={increase} >
@@ -92,9 +105,40 @@ const CartItem = ({ item, cart, setCart }) => {
     )
 }
 
+export const OderSummary = ({ total, amount }) => {
+
+    return (
+        <Table>
+            <TableHead>
+                <TableRow>
+                    <TableCell align="right">Total Items</TableCell>
+                    <TableCell align="right">Total Amount</TableCell>
+
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                <TableRow key={1}>
+                    <TableCell align="right">{total}</TableCell>
+                    <TableCell align="right">${Math.round(amount * 100) / 100}</TableCell>
+                </TableRow>
+            </TableBody>
+        </Table>
+    )
+};
+
 export default function Cart() {
     const classes = useStyles();
-    const { cart, setCart } = useContext(AppContext);
+    const { user, cart, setCart } = useContext(AppContext);
+
+    const prepareCheckout = () => {
+        const token = Cookies.get('token');
+
+        if (user === null || token === undefined) {
+            Router.push('/login');
+        } else {
+            Router.push('/checkout');
+        }
+    }
 
     return cart.total === 0 ?
         <div style={{ textAlign: "center" }}>
@@ -105,26 +149,14 @@ export default function Cart() {
         </div>
         :
         <>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="right">Total Items</TableCell>
-                        <TableCell align="right">Total Amount</TableCell>
-                        <TableCell align="right"></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    <TableRow key={1}>
-                        <TableCell align="right">{cart.total}</TableCell>
-                        <TableCell align="right">${Math.round(cart.amount * 100) / 100}</TableCell>
-                        <TableCell align="right">
-                            <Button variant="outlined" color="primary" href="#outlined-buttons">
-                                Pay
-</Button>
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+            <OderSummary total={cart.total} amount={cart.amount} />
+            <Button variant="outlined"
+                edge="end"
+                color="primary"
+                href="#outlined-buttons"
+                onClick={prepareCheckout}>
+                Pay
+                    </Button>
             <List>
                 {cart.items.map(item => <CartItem key={item.id} item={item} cart={cart} setCart={setCart} />)}
             </List >

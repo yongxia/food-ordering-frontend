@@ -40,8 +40,8 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    useEffect(() => { setShow(false) });
-
+    useEffect(() => setShow(false), []);
+    
     const handleChangeUsername = (value) => {
         setUsername(value);
     }
@@ -59,7 +59,7 @@ export default function SignUp() {
         register({ username, email, password })
             .then(user => {
                 setUser(user);
-                Router.push('/');
+                Router.back();
             })
             .catch(err => <h2>{err}</h2>)
     }

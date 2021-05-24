@@ -44,7 +44,7 @@ export default function SignIn() {
 
     const [password, setPassword] = useState("");
 
-    useEffect(() => setShow(false));
+    useEffect(() => setShow(false), []);
 
     const handleChangeIdentifier = (value) => {
         setIdentifier(value);
@@ -59,7 +59,7 @@ export default function SignIn() {
         login({ identifier, password })
             .then(user => {
                 setUser(user);
-                Router.push('/');
+                Router.back();
             })
             .catch(err => <h2>err</h2>)
     }
