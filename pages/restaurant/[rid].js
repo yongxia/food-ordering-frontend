@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useQuery, gql } from "@apollo/client";
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Typography, Button } from '@material-ui/core';
 import { useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -66,7 +66,7 @@ const restuarant = () => {
                     Back
 </Button>
             </Link>
-            <h2>{name}</h2>
+            <Typography variant="h3" gutterBottom>{name}</Typography>
             <Grid container>
                 {dishes.map(d => <DishCard key={d.id} dish={d} />)}
             </Grid>

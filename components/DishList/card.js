@@ -36,9 +36,9 @@ export default function DishCard(props) {
     const addToCart = () => {
         let item = cart.items.find(item => item.id == props.dish.id);
         if (item === undefined) {
-            cart.items.push({ ...props.dish, quitality: 1 });
+            cart.items.push({ ...props.dish, quantity: 1 });
         } else {
-            item.quitality++;
+            item.quantity++;
         }
         cart.total++;
         cart.amount += props.dish.price;

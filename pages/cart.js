@@ -24,8 +24,13 @@ import Router from 'next/router'
 import Cookies from 'js-cookie';
 
 import { AppContext } from '../components/layout';
-import CheckOut from './checkout'
+import { loadStripe } from '@stripe/stripe-js'
 
+
+const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PK || 'pk_test_51IuNBpHadV40hZ9ubGzOIlVSUdPRvaE65OQDwyZ9Edu4hKUomaGnEbciYiJqf3W7ky0lqkxQlAuOW7YNhgHDytQe00n0TB6aqO'
+
+const stripPromise = loadStripe(STRIPE_PK);
+console.log('pk', STRIPE_PK)
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -46,11 +51,11 @@ const useStyles = makeStyles((theme) => ({
 
 const CartItem = ({ item, cart, setCart }) => {
     const classes = useStyles();
-    const { id, image, name, price, quitality } = item;
+    const { id, image, name, price, quantity } = item;
 
     const increase = () => {
         setCart(() => {
-            item.quitality++;
+            item.quantity++;
             cart.total++;
             cart.amount += price;
             return { ...cart }
@@ -59,12 +64,12 @@ const CartItem = ({ item, cart, setCart }) => {
 
     const decrease = () => {
         setCart(() => {
-            if (item.quitality == 1) {
+            if (item.quantity == 1) {
                 //cart size might change when click decreas, use findIndex
                 let index = cart.items.findIndex(i => i.id == id);
                 cart.items.splice(index, 1);
             } else {
-                item.quitality--;
+                item.quantity--;
             }
             cart.total--;
             cart.amount -= price;
@@ -88,7 +93,7 @@ const CartItem = ({ item, cart, setCart }) => {
                         <>
                             Price: ${price}
                             <br />
-                            Qty: {quitality}
+                            Qty: {quantity}
                         </>
                     }
                 />
@@ -130,13 +135,36 @@ export default function Cart() {
     const classes = useStyles();
     const { user, cart, setCart } = useContext(AppContext);
 
-    const prepareCheckout = () => {
+    const handlePay = async () => {
         const token = Cookies.get('token');
+        const stripe = await stripPromise;
 
         if (user === null || token === undefined) {
             Router.push('/login');
         } else {
-            Router.push('/checkout');
+
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
+                method: "POST",
+                headers: token && { Authorization: `Bearer ${token}` },
+                body: JSON.stringify({
+                    amount: Number(Math.round(cart.total + "e2") + "e-2"),
+                    dishes: cart.items,
+                    //address: data.address,
+                    // city: data.city,
+                    // state: data.state,
+                    user: user.id,
+                }),
+            });
+            console.log('order res', response);
+            if (!response.ok) {
+                setError(response.statusText);
+            }
+
+            const session = await response.json();
+
+            const result = await stripe.redirectToCheckout({
+                sessionId: session.id,
+            });
         }
     }
 
@@ -154,7 +182,7 @@ export default function Cart() {
                 edge="end"
                 color="primary"
                 href="#outlined-buttons"
-                onClick={prepareCheckout}>
+                onClick={handlePay}>
                 Pay
                     </Button>
             <List>
