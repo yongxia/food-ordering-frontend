@@ -36,7 +36,7 @@ export default function Home(props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      < Restaurants restaurants={props.restaurants} />
+      <Restaurants restaurants={props.restaurants} />
     </div>
   )
 }

@@ -30,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function RestaurantCard({restaurant}) {
+function RestaurantCard({ restaurant }) {
     const classes = useStyles();
 
-    const { id, name, description, image } =restaurant;
+    const { id, name, description, image } = restaurant;
 
     return (
         <Card component={Card} className={classes.card}>
@@ -49,9 +49,7 @@ function RestaurantCard({restaurant}) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <NextLink
-                    href={`/restaurant/${id}`}
-                >
+                <NextLink href={`/restaurant/${id}`}>
                     <Link href="#">View Dish</Link>
                 </NextLink>
             </CardActions>
