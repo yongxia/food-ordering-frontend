@@ -1,7 +1,33 @@
 import Head from 'next/head'
-import Restaurants from '../components/RestaurantList/index'
+import { gql } from "@apollo/client";
 
-export default function Home() {
+import client from "../lib/apollo-client";
+import Restaurants from '../components/restaurants';
+
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: gql`
+    {
+      restaurants {
+          id
+          name 
+          description 
+          image {url} 
+      }
+    }
+    `,
+  });
+
+  //console.log('restaurants', data.restaurants);
+
+  return {
+    props: {
+      restaurants: data.restaurants,
+    },
+  };
+}
+
+export default function Home(props) {
   return (
     <div>
       <Head>
@@ -10,7 +36,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      < Restaurants />
+      < Restaurants restaurants={props.restaurants} />
     </div>
   )
 }
