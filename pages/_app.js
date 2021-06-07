@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { ApolloProvider } from "@apollo/client";
 import client from "../lib/apollo-client";
 
-import theme from './theme';
+import theme from '../components/theme';
 import Layout from '../components/layout'
 //import Cookie from "js-cookie";
 
@@ -17,9 +17,6 @@ function MyApp({ Component, pageProps }) {
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
-
-    // token = Cookie.get('token');
-    //const cart = Cookie.get('cart');
   }, []);
 
   return (
@@ -33,6 +30,5 @@ function MyApp({ Component, pageProps }) {
     </ThemeProvider>
   )
 }
-
 
 export default MyApp
