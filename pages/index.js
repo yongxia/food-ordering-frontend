@@ -18,7 +18,7 @@ export async function getStaticProps() {
     `,
   });
 
-  //console.log('restaurants', data.restaurants);
+  //console.log('restaurants', data);
 
   return {
     props: {

@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { Typography } from '@material-ui/core';
 
 export default function Home() {
     return (
@@ -8,7 +9,7 @@ export default function Home() {
             </Head>
 
             <section>
-                <p>We appreciate your business!</p>
+                <Typography variant="h6">We appreciate your business!</Typography>
             </section>
         </div>
     )

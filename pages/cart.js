@@ -27,10 +27,9 @@ import { AppContext } from '../components/layout';
 import { loadStripe } from '@stripe/stripe-js'
 
 
-const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PK || 'pk_test_51IuNBpHadV40hZ9ubGzOIlVSUdPRvaE65OQDwyZ9Edu4hKUomaGnEbciYiJqf3W7ky0lqkxQlAuOW7YNhgHDytQe00n0TB6aqO'
+const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PK
 
 const stripPromise = loadStripe(STRIPE_PK);
-console.log('pk', STRIPE_PK)
 
 const useStyles = makeStyles((theme) => ({
     grow: {

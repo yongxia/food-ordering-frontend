@@ -13,7 +13,7 @@ import {
     Link
 } from '@material-ui/core';
 
-import { AppContext } from '../components/layout'
+import { AppContext } from './layout'
 
 
 const useStyles = makeStyles((theme) => ({
